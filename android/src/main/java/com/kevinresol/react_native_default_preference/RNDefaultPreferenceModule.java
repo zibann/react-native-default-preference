@@ -39,6 +39,11 @@ public class RNDefaultPreferenceModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
+  public void getInt(String preferenceName, String key, Promise promise) {
+    promise.resolve(getPreferences(preferenceName).getInt(key, 1));
+  }
+
+  @ReactMethod
   public void set(String preferenceName, String key, String value, Promise promise) {
     getEditor(preferenceName).putString(key, value).commit();
     promise.resolve(null);
