@@ -34,34 +34,34 @@ public class RNDefaultPreferenceModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void get(String key, Promise promise) {
-    promise.resolve(getPreferences().getString(key, null));
+  public void get(String preferenceName, String key, Promise promise) {
+    promise.resolve(getPreferences(preferenceName).getString(key, null));
   }
 
   @ReactMethod
-  public void set(String key, String value, Promise promise) {
-    getEditor().putString(key, value).commit();
+  public void set(String preferenceName, String key, String value, Promise promise) {
+    getEditor(preferenceName).putString(key, value).commit();
     promise.resolve(null);
   }
 
   @ReactMethod
-  public void clear(String key, Promise promise) {
-    getEditor().remove(key).commit();
+  public void clear(String preferenceName, String key, Promise promise) {
+    getEditor(preferenceName).remove(key).commit();
     promise.resolve(null);
   }
 
   @ReactMethod
-  public void getMultiple(ReadableArray keys, Promise promise) {
+  public void getMultiple(String preferenceName, ReadableArray keys, Promise promise) {
     WritableArray result = Arguments.createArray();
     for(int i = 0; i < keys.size(); i++) {
-      result.pushString(getPreferences().getString(keys.getString(i), null));
+      result.pushString(getPreferences(preferenceName).getString(keys.getString(i), null));
     }
     promise.resolve(result);
   }
 
   @ReactMethod
-  public void setMultiple(ReadableMap data, Promise promise) {
-    SharedPreferences.Editor editor = getEditor();
+  public void setMultiple(String preferenceName, ReadableMap data, Promise promise) {
+    SharedPreferences.Editor editor = getEditor(preferenceName);
     ReadableMapKeySetIterator iter = data.keySetIterator();
     while(iter.hasNextKey()) {
       String key = iter.nextKey();
@@ -71,8 +71,8 @@ public class RNDefaultPreferenceModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void clearMultiple(ReadableArray keys, Promise promise) {
-    SharedPreferences.Editor editor = getEditor();
+  public void clearMultiple(String preferenceName, ReadableArray keys, Promise promise) {
+    SharedPreferences.Editor editor = getEditor(preferenceName);
     for(int i = 0; i < keys.size(); i++) {
       editor.remove(keys.getString(i));
     }
@@ -81,9 +81,9 @@ public class RNDefaultPreferenceModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void getAll(Promise promise) {
+  public void getAll(String preferenceName, Promise promise) {
     WritableMap result = Arguments.createMap();
-    Map<String, ?> allEntries = getPreferences().getAll();
+    Map<String, ?> allEntries = getPreferences(preferenceName).getAll();
     for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
       result.putString(entry.getKey(), entry.getValue().toString());
     }
@@ -91,9 +91,9 @@ public class RNDefaultPreferenceModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void clearAll(Promise promise) {
-    SharedPreferences.Editor editor = getEditor();
-    Map<String, ?> allEntries = getPreferences().getAll();
+  public void clearAll(String preferenceName, Promise promise) {
+    SharedPreferences.Editor editor = getEditor(preferenceName);
+    Map<String, ?> allEntries = getPreferences(preferenceName).getAll();
     for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
       editor.remove(entry.getKey());
     }
@@ -101,21 +101,10 @@ public class RNDefaultPreferenceModule extends ReactContextBaseJavaModule {
     promise.resolve(null);
   }
 
-  @ReactMethod
-  public void setName(String preferencesName, Promise promise) {
-    this.preferencesName = preferencesName;
-    promise.resolve(null);
+  private SharedPreferences getPreferences(String preferenceName) {
+    return getReactApplicationContext().getSharedPreferences(preferenceName, Context.MODE_PRIVATE);
   }
-
-  @ReactMethod
-  public void getName(Promise promise) {
-    promise.resolve(preferencesName);
-  }
-
-  private SharedPreferences getPreferences() {
-    return getReactApplicationContext().getSharedPreferences(preferencesName, Context.MODE_PRIVATE);
-  }
-  private SharedPreferences.Editor getEditor() {
-    return getPreferences().edit();
+  private SharedPreferences.Editor getEditor(String preferenceName) {
+    return getPreferences(preferenceName).edit();
   }
 }
