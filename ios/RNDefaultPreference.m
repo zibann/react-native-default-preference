@@ -127,7 +127,7 @@ RCT_EXPORT_METHOD(getAll:(NSString *)_unused
 }
 
 RCT_EXPORT_METHOD(clearAll:(NSString *)_unused
-  (RCTPromiseResolveBlock)resolve
+  resolve:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
 {
     NSArray *keys = [[[self getDefaultUser] dictionaryRepresentation] allKeys];
