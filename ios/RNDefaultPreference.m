@@ -36,14 +36,29 @@ RCT_EXPORT_METHOD(getName:(RCTPromiseResolveBlock)resolve
     resolve(defaultSuiteName);
 }
 
-RCT_EXPORT_METHOD(get:(NSString *)key
-                  resolve:(RCTPromiseResolveBlock)resolve
-                  reject:(__unused RCTPromiseRejectBlock)reject)
+RCT_EXPORT_METHOD(
+  get:(NSString *)_unused
+  key: (NSString *)key
+  resolve:(RCTPromiseResolveBlock)resolve
+  reject:(__unused RCTPromiseRejectBlock)reject)
 {
     resolve([[self getDefaultUser] stringForKey:key]);
 }
 
-RCT_EXPORT_METHOD(set:(NSString *)key value:(NSString *)value
+RCT_EXPORT_METHOD(
+  getInt:(NSString *)_unused
+  key: (NSString *)key
+  resolve:(RCTPromiseResolveBlock)resolve
+  reject:(__unused RCTPromiseRejectBlock)reject)
+{
+    resolve([[self getDefaultUser] integerForKey:key]);
+}
+
+
+RCT_EXPORT_METHOD(
+  set:(NSString *)_unused
+  key: (NSString *)key
+  value:(NSString *)value
                   resolve:(RCTPromiseResolveBlock)resolve
                   reject:(__unused RCTPromiseRejectBlock)reject)
 {
@@ -51,16 +66,20 @@ RCT_EXPORT_METHOD(set:(NSString *)key value:(NSString *)value
     resolve([NSNull null]);
 }
 
-RCT_EXPORT_METHOD(clear:(NSString *)key
-                  resolve:(RCTPromiseResolveBlock)resolve
-                  reject:(__unused RCTPromiseRejectBlock)reject)
+RCT_EXPORT_METHOD(
+  clear:(NSString *)_unused
+  key: (NSString *)key
+  resolve:(RCTPromiseResolveBlock)resolve
+  reject:(__unused RCTPromiseRejectBlock)reject)
 {
     [[self getDefaultUser] removeObjectForKey:key];
     resolve([NSNull null]);
 }
 
-RCT_EXPORT_METHOD(getMultiple:(NSArray *)keys
-                  resolve:(RCTPromiseResolveBlock)resolve
+RCT_EXPORT_METHOD(
+  getMultiple: (NSString *)_unused
+  key:(NSArray *)key
+  resolve:(RCTPromiseResolveBlock)resolve
                   reject:(__unused RCTPromiseRejectBlock)reject)
 {
     NSMutableArray *result = [NSMutableArray array];
@@ -71,7 +90,8 @@ RCT_EXPORT_METHOD(getMultiple:(NSArray *)keys
     resolve(result);
 }
 
-RCT_EXPORT_METHOD(setMultiple:(NSDictionary *)data
+RCT_EXPORT_METHOD(setMultiple:(NSString *)_unused
+  data: (NSDictionary*)data
                   resolve:(RCTPromiseResolveBlock)resolve
                   reject:(__unused RCTPromiseRejectBlock)reject)
 {
@@ -81,7 +101,9 @@ RCT_EXPORT_METHOD(setMultiple:(NSDictionary *)data
     resolve([NSNull null]);
 }
 
-RCT_EXPORT_METHOD(clearMultiple:(NSArray *)keys
+RCT_EXPORT_METHOD(
+  clearMultiple:(NSString *)_unused
+  key: (NSArray *)keys
                   resolve:(RCTPromiseResolveBlock)resolve
                   reject:(__unused RCTPromiseRejectBlock)reject)
 {
@@ -91,8 +113,9 @@ RCT_EXPORT_METHOD(clearMultiple:(NSArray *)keys
     resolve([NSNull null]);
 }
 
-RCT_EXPORT_METHOD(getAll:(RCTPromiseResolveBlock)resolve
-                  reject:(__unused RCTPromiseRejectBlock)reject)
+RCT_EXPORT_METHOD(getAll:(NSString *)_unused
+  resolve:(RCTPromiseResolveBlock)resolve
+  reject:(__unused RCTPromiseRejectBlock)reject)
 {
     NSArray *keys = [[[self getDefaultUser] dictionaryRepresentation] allKeys];
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
@@ -103,7 +126,8 @@ RCT_EXPORT_METHOD(getAll:(RCTPromiseResolveBlock)resolve
     resolve(result);
 }
 
-RCT_EXPORT_METHOD(clearAll:(RCTPromiseResolveBlock)resolve
+RCT_EXPORT_METHOD(clearAll:(NSString *)_unused
+  (RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
 {
     NSArray *keys = [[[self getDefaultUser] dictionaryRepresentation] allKeys];
