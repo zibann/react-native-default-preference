@@ -103,7 +103,7 @@ RCT_EXPORT_METHOD(setMultiple:(NSString *)_unused
 
 RCT_EXPORT_METHOD(
   clearMultiple:(NSString *)_unused
-  key: (NSArray *)keys
+  keys: (NSArray *)keys
                   resolve:(RCTPromiseResolveBlock)resolve
                   reject:(__unused RCTPromiseRejectBlock)reject)
 {
