@@ -51,7 +51,7 @@ RCT_EXPORT_METHOD(
   resolve:(RCTPromiseResolveBlock)resolve
   reject:(__unused RCTPromiseRejectBlock)reject)
 {
-    resolve([[self getDefaultUser] integerForKey:key]);
+  resolve([NSNumber numberWithInteger: [[self getDefaultUser] integerForKey:key]]);
 }
 
 
@@ -78,7 +78,7 @@ RCT_EXPORT_METHOD(
 
 RCT_EXPORT_METHOD(
   getMultiple: (NSString *)_unused
-  key:(NSArray *)key
+  key:(NSArray *)keys
   resolve:(RCTPromiseResolveBlock)resolve
                   reject:(__unused RCTPromiseRejectBlock)reject)
 {
@@ -131,7 +131,7 @@ RCT_EXPORT_METHOD(clearAll:(NSString *)_unused
                   reject:(RCTPromiseRejectBlock)reject)
 {
     NSArray *keys = [[[self getDefaultUser] dictionaryRepresentation] allKeys];
-    [self clearMultiple:keys resolve:resolve reject:reject];
+    [self clearMultiple:"" keys:keys resolve:resolve reject:reject];
 }
 
 @end
