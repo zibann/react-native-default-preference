@@ -56,6 +56,18 @@ RCT_EXPORT_METHOD(
 
 
 RCT_EXPORT_METHOD(
+  setInt:(NSString *)_unused
+  key: (NSString *)key
+  value:(NSInteger)value
+                  resolve:(RCTPromiseResolveBlock)resolve
+                  reject:(__unused RCTPromiseRejectBlock)reject)
+{
+    [[self getDefaultUser] setInteger:value forKey:key];
+    resolve([NSNull null]);
+}
+
+
+RCT_EXPORT_METHOD(
   set:(NSString *)_unused
   key: (NSString *)key
   value:(NSString *)value
